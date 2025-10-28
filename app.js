@@ -133,10 +133,8 @@ async function updateFlag(sheet, row, col, value) {
 		col: String(col),
 		value: value ? "true" : "false"
 	});
-
-	// usa o proxy, mas sem encode completo
 	const url = `https://corsproxy.io/?${CONFIG["SCRIPT_URL"]}?${params.toString()}`;
-
+	console.log(url);
 	const res = await fetch(url, { "method": "GET" });
 	if (!res["ok"]) throw new Error(`HTTP ${res["status"]}`);
 	const text = await res["text"]();
@@ -152,6 +150,7 @@ async function updateFlag(sheet, row, col, value) {
 	if (!data || data["ok"] !== true) throw new Error(data && data["error"] || "Erro desconhecido");
 	return data;
 }
+
 
 
 
