@@ -133,12 +133,25 @@ async function updateFlag(sheet, row, col, value) {
 		col: String(col),
 		value: value ? "true" : "false"
 	});
-	const url = "https://corsproxy.io/?" + encodeURIComponent(`${CONFIG["SCRIPT_URL"]}?${params.toString()}`);
-	const res = await fetch(url);
+
+	// usa o proxy, mas sem encode completo
+	const url = `https://corsproxy.io/?${CONFIG["SCRIPT_URL"]}?${params.toString()}`;
+
+	const res = await fetch(url, { "method": "GET" });
 	if (!res["ok"]) throw new Error(`HTTP ${res["status"]}`);
-	const data = await res["json"]();
+	const text = await res["text"]();
+
+	let data;
+	try {
+		data = JSON.parse(text);
+	} catch {
+		console.error("Resposta inesperada do GAS:", text);
+		throw new Error("Resposta não é JSON");
+	}
+
 	if (!data || data["ok"] !== true) throw new Error(data && data["error"] || "Erro desconhecido");
 	return data;
 }
+
 
 
