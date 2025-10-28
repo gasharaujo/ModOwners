@@ -1,6 +1,6 @@
 // ===== Config =====
 const CONFIG = {
-	"SCRIPT_URL": "https://script.google.com/macros/s/AKfycbz1OiVNmLordGKCda9ODB_eXLhnP-3LtVoG0S3BzJvZGItReHQSQKTBuSm1EOTXZ7atvA/exec" // ex.: https://script.google.com/macros/s/XXX/exec
+	"SCRIPT_URL": "https://script.google.com/macros/s/AKfycbxyLDgSJjm0yvKU6rbcXHpWeVgTV7sCwbJBrXTfkLytgmZzoFWDdgmybEzc9EymhmAJSA/exec" // ex.: https://script.google.com/macros/s/XXX/exec
 };
 
 const KEY = "abaSelecionada";
@@ -129,28 +129,17 @@ document["addEventListener"]("DOMContentLoaded", init);
 async function updateFlag(sheet, row, col, value) {
 	const params = new URLSearchParams({
 		sheet,
+		register: "Sim",
 		row: String(row),
 		col: String(col),
 		value: value ? "true" : "false"
 	});
-	const url = `https://corsproxy.io/?${CONFIG["SCRIPT_URL"]}?${params.toString()}`;
-	console.log(url);
-	const res = await fetch(url, { "method": "GET" });
-	if (!res["ok"]) throw new Error(`HTTP ${res["status"]}`);
-	const text = await res["text"]();
-
-	let data;
-	try {
-		data = JSON.parse(text);
-	} catch {
-		console.error("Resposta inesperada do GAS:", text);
-		throw new Error("Resposta não é JSON");
-	}
-
-	if (!data || data["ok"] !== true) throw new Error(data && data["error"] || "Erro desconhecido");
-	return data;
+	console.log(params.toString());
+	
+	const url = `${CONFIG["SCRIPT_URL"]}?${params.toString()}`;
+	console.log(url)
+	const res = await fetch(url);
+	const response = await res.text();
+	console.log(response);
+	return response;
 }
-
-
-
-
