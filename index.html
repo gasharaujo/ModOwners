@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>Arbok / Gash</title>
+	<style>
+		body { font-family: system-ui, sans-serif; margin: 16px; }
+		.row { border: 1px solid #ddd; border-radius: 10px; padding: 12px; margin: 8px 0; }
+		.group { display: grid; gap: 8px; }
+		.controls { display:flex; align-items:center; gap:8px; margin-bottom:12px; }
+	</style>
+</head>
+<body>
+	<div class="controls">
+		<label for="switch">Aba atual:</label>
+		<select id="switch">
+			<option value="Arbok">Arbok</option>
+			<option value="Gash">Gash</option>
+		</select>
+		<button id="refresh">Atualizar</button>
+	</div>
+
+	<div id="status"></div>
+	<div id="container"></div>
+
+	<script src="app.js"></script>
+</body>
+</html>
