@@ -127,14 +127,18 @@ function init() {
 document["addEventListener"]("DOMContentLoaded", init);
 
 async function updateFlag(sheet, row, col, value) {
-	const res = await fetch("https://corsproxy.io/?" + encodeURIComponent(CONFIG["SCRIPT_URL"]), {
-		"method": "POST",
-		"headers": { "Content-Type": "application/json" },
-		"body": JSON.stringify({ sheet, row, col, value })
+	const params = new URLSearchParams({
+		sheet,
+		row: String(row),
+		col: String(col),
+		value: value ? "true" : "false"
 	});
+	const url = "https://corsproxy.io/?" + encodeURIComponent(`${CONFIG["SCRIPT_URL"]}?${params.toString()}`);
+	const res = await fetch(url);
 	if (!res["ok"]) throw new Error(`HTTP ${res["status"]}`);
 	const data = await res["json"]();
 	if (!data || data["ok"] !== true) throw new Error(data && data["error"] || "Erro desconhecido");
 	return data;
 }
+
 
